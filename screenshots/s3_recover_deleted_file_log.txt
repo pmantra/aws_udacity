@@ -1,0 +1,26 @@
+Gauris-MBP:ec2 gaurisrinivas$ ssh -i "udacity_kp.pem" ec2-user@ec2-3-14-131-79.us-east-2.compute.amazonaws.com
+Last login: Tue Apr  6 16:31:31 2021 from 172.92.130.53
+
+       __|  __|_  )
+       _|  (     /   Amazon Linux 2 AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-2/
+[ec2-user@ip-10-1-10-18 ~]$ aws s3api list-object-versions --bucket udacity-project1-static-web --prefix winter.jpg --query 'DeleteMarkers[?IsLatest==`true`]'
+[
+    {
+        "Owner": {
+            "ID": "fc8e37a7c68f51fb6d2644cffbdd91f2219093362691e73a47843932aac20b6e"
+        }, 
+        "IsLatest": true, 
+        "VersionId": ".Wk4eZemKZ49oeRGHs1.ldtzpFOscJi6", 
+        "Key": "winter.jpg", 
+        "LastModified": "2021-04-06T20:47:44.000Z"
+    }
+]
+[ec2-user@ip-10-1-10-18 ~]$ aws s3api delete-object --bucket udacity-project1-static-web --key winter.jpg --version-id '.Wk4eZemKZ49oeRGHs1.ldtzpFOscJi6'
+{
+    "VersionId": ".Wk4eZemKZ49oeRGHs1.ldtzpFOscJi6", 
+    "DeleteMarker": true
+}
+[ec2-user@ip-10-1-10-18 ~]$

@@ -1,0 +1,76 @@
+Gauris-MBP:ec2 gaurisrinivas$ ssh -i "udacity_kp.pem" ec2-user@ec2-3-14-131-79.us-east-2.compute.amazonaws.com
+Last login: Tue Apr  6 00:59:39 2021 from 172.92.130.53
+
+       __|  __|_  )
+       _|  (     /   Amazon Linux 2 AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-2/
+[ec2-user@ip-10-1-10-18 ~]$ mysql -h udacity.cp8m1chswzk4.us-east-2.rds.amazonaws.com -P 3306 -u admin -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 225
+Server version: 8.0.20 Source distribution
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| udacity            |
++--------------------+
+4 rows in set (0.01 sec)
+
+mysql> use udacity;
+Database changed
+mysql> show tables;
+Empty set (0.00 sec)
+
+mysql>  CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20),        species VARCHAR(20), sex CHAR(1), birth DATE, death DATE);
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_udacity |
++-------------------+
+| pet               |
++-------------------+
+1 row in set (0.01 sec)
+
+mysql> describe pet;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| name    | varchar(20) | YES  |     | NULL    |       |
+| owner   | varchar(20) | YES  |     | NULL    |       |
+| species | varchar(20) | YES  |     | NULL    |       |
+| sex     | char(1)     | YES  |     | NULL    |       |
+| birth   | date        | YES  |     | NULL    |       |
+| death   | date        | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> INSERT INTO pet
+    ->        VALUES ('Puffball','Diane','hamster','f','1999-03-30',NULL);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from pet;
++----------+-------+---------+------+------------+-------+
+| name     | owner | species | sex  | birth      | death |
++----------+-------+---------+------+------------+-------+
+| Puffball | Diane | hamster | f    | 1999-03-30 | NULL  |
++----------+-------+---------+------+------------+-------+
+1 row in set (0.00 sec)
+
+mysql> 

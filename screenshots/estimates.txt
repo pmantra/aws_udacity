@@ -1,0 +1,35 @@
+Availability Estimate
+Write a paragraph or two describing the achievable Recovery Time Objective (RTO) and Recovery Point Objective (RPO) for this Multi-AZ, multi-region database in terms of:
+
+RDS Configuration
+For the purposes of below exercise, we will be calculating RTO and RPO for mysql database setup
+in Multi-region with Multi-AZ per region with one region acting as primary
+and the other as standby (read-replica).
+The multi AZ configuration is made possible by creating a subnet group with each subnet corresponding to
+an availability zone within aws data centers.
+So with multi AZ deployments we get a high degree of availability
+
+Minimum RTO for a single AZ outage
+With a single AZ outage in RDS, we could failover to a standby instance in the same region in a matter of minutes.
+The standby instance is kept upto date with synchronous replication and with automated backups.
+This is done via the DNS. RDS typically will update the IP address of the new instance with a low turn around time.
+RTO in this scenarion is a few minutes (5min to 10min)
+
+Minimum RTO for a single region outage
+Incase of a single region outage, we will need to failover to a standby instance in a different region.
+The instance in the standby region is configured as read replica and it is kept upto date via asynchronous replication.
+On failure, the read replica needs to be promoted to a standalone instance while the failure region comes back alive.
+The minimum RTO in this case is anywhere between few minutes (20min) to few hours(2hrs) depending on
+1. Alarm and monitoring setup
+2. Size of the database
+3. Severity of the region outage (potential for further failures)
+
+Minimum RPO for a single AZ outage
+As described above, since the standby instance is in the same region (in a diffferent AZ), the instance is almost upto date (using synchronous replication)
+Since it doesnt take too long to recover from the failure, RPO in this case would be minimal along the lines of data loss in minutes depending on the frequency of replication and the time it takes
+to spin up a standby to make the application resilient and highly available from the point of failure.
+
+Minimum RPO for a single region outage
+In a single region outage, the data loss incurred from the point of failure will include the time when read replica is the only
+database available which would disallow the writes and the time it takes to promote this instance as primary while the standby instance in another region comes alive.
+Minimum RPO is in few minutes (15min to an hour) depending on the alarm systems in place to detect the failure and the process in place to promote the standby.
